@@ -10,7 +10,11 @@ license = {file = "LICENSE"}
 classifiers = ["License :: OSI Approved :: Apache Software License"]
 dynamic = ["version", "description"]
 dependencies = [
-    "numpy"
+    "numpy",
+    "pandas",
+    "xlwings",
+    "pathlib",
+    "typing"
 ]
 
 [project.urls]
