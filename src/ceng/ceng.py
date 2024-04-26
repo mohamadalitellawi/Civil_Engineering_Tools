@@ -3,6 +3,6 @@ def say_hi():
     '''
     to say hi only
     '''
-    msg ='Hello World' + '\t240405'
+    msg ='Hello World'
     print(msg)
     return msg
