@@ -133,7 +133,7 @@ def calculate_minor_delta_ns(column:Column,
     Pc_c = calculate_critical_buckling_load(EI_eff_c,column.k_22, column.lu_22)
     delta_ns_a = calculate_column_delta_non_sway(load.Pu,Pc_a,Cm)
     delta_ns_c = calculate_column_delta_non_sway(load.Pu,Pc_c,Cm)
-    return {'Etabs': delta_ns_a, 'Method C':delta_ns_c}
+    return {'Etabs': delta_ns_a, 'Method_C':delta_ns_c}
 
 
 def calculate_major_delta_ns(column:Column,
@@ -158,4 +158,4 @@ def calculate_major_delta_ns(column:Column,
     Pc_c = calculate_critical_buckling_load(EI_eff_c,column.k_33, column.lu_33)
     delta_ns_a = calculate_column_delta_non_sway(load.Pu,Pc_a,Cm)
     delta_ns_c = calculate_column_delta_non_sway(load.Pu,Pc_c,Cm)
-    return {'Etabs': delta_ns_a, 'Method C':delta_ns_c}
+    return {'Etabs': delta_ns_a, 'Method_C':delta_ns_c}
