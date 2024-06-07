@@ -5,3 +5,4 @@ pandas
 xlwings
 pathlib
 typing
+pytest

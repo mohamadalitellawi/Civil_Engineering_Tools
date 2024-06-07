@@ -17,6 +17,7 @@ class Section_Dimensions:
 class Load_Case:
     # factored axial force; to be taken as positive for compression and negative for tension, N
     Pu :float # ultimate design axial force, N
+    Pu_sustained:float # ultimate sustained axial force, N
     Mu_22 :float # ultimate desigm moment about local axis 2-2 as per ETABS, N*mm
     Mu_33 :float  # ultimate desigm moment about local axis 3-3 as per ETABS, N*mm
 
@@ -25,16 +26,16 @@ class Load_Case:
                           moment_unit_scale:float = 1e6, 
                           flip_axial_sign:bool = True,
                           moment_absolute:bool = True) :
+        self.Pu *= force_unit_scale
+        self.Pu_sustained *= force_unit_scale
+        self.Mu_22 *= moment_unit_scale
+        self.Mu_33 *= moment_unit_scale
         if flip_axial_sign:
-            self.Pu = -1 * self.Pu * force_unit_scale
-        else:
-            self.Pu = self.Pu * force_unit_scale
+            self.Pu *= -1
+            self.Pu_sustained *= -1
         if moment_absolute:
-            self.Mu_22 = abs(self.Mu_22) * moment_unit_scale
-            self.Mu_33 = abs(self.Mu_33) * moment_unit_scale
-        else:
-            self.Mu_22 = self.Mu_22 * moment_unit_scale
-            self.Mu_33 = self.Mu_33 * moment_unit_scale
+            self.Mu_22 = abs(self.Mu_22)
+            self.Mu_33 = abs(self.Mu_33)
         return self
 
 
