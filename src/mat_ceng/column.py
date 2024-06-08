@@ -159,3 +159,20 @@ def calculate_major_delta_ns(column:Column,
     delta_ns_a = calculate_column_delta_non_sway(load.Pu,Pc_a,Cm)
     delta_ns_c = calculate_column_delta_non_sway(load.Pu,Pc_c,Cm)
     return {'Etabs': delta_ns_a, 'Method_C':delta_ns_c}
+
+
+
+
+def calculate_Cm(start_moment:float, end_moment:float) -> float:
+    if abs(start_moment) <= abs(end_moment):
+        m1 = start_moment
+        m2 = end_moment
+    else:
+        m1 = end_moment
+        m2 = start_moment
+
+    if m2 == 0 :
+        Cm = 1.0
+    else:
+        Cm = 0.6 - 0.4 * (m1/m2) * -1 # we flip by -1 to match etabs results
+    return Cm
