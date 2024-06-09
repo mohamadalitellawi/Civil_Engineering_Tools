@@ -168,7 +168,7 @@ def calculate_minor_delta_ns(column:Column,
     delta_ns_a = calculate_column_delta_non_sway(load.Pu,Pc_a,Cm)
     delta_ns_b = calculate_column_delta_non_sway(load.Pu,Pc_b,Cm)
     delta_ns_c = calculate_column_delta_non_sway(load.Pu,Pc_c,Cm)
-    return {'Etabs': delta_ns_a,'Method_B':delta_ns_b, 'Method_C':delta_ns_c}
+    return {'Etabs': delta_ns_a,'Method_B':delta_ns_b, 'Method_C':delta_ns_c, 'Pc':(Pc_a,Pc_b,Pc_c)}
 
 
 def calculate_major_delta_ns(column:Column,
@@ -203,7 +203,7 @@ def calculate_major_delta_ns(column:Column,
     delta_ns_a = calculate_column_delta_non_sway(load.Pu,Pc_a,Cm)
     delta_ns_b = calculate_column_delta_non_sway(load.Pu,Pc_b,Cm)
     delta_ns_c = calculate_column_delta_non_sway(load.Pu,Pc_c,Cm)
-    return {'Etabs': delta_ns_a,'Method_B':delta_ns_b , 'Method_C':delta_ns_c}
+    return {'Etabs': delta_ns_a,'Method_B':delta_ns_b , 'Method_C':delta_ns_c, 'Pc':(Pc_a,Pc_b,Pc_c)}
 
 
 
