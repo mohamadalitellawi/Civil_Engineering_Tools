@@ -14,6 +14,9 @@ class Section_Dimensions:
     section_c33 :float # cross section depth, mm
     section_cc :float # 20.5.1.3 clear cover of reinforcement, mm
     rft_ratio :float # reinforcements ratio of longitudinal bars
+    rft_bars_2dir:float = 0 # Number of longitudinal bars along 2-dir face (one face only), usually the large count (5)
+    rft_bars_3dir:float = 0 # Number of longitudinal bars along 3-dir face(one face only), usually the small count (3)
+    rft_bar_dia:float = 0 # reinforcements bar diameter (size)
 
 @dataclass
 class Load_Case:
@@ -71,19 +74,40 @@ def calculate_column_actual_moment_of_inertia(material:Material, dimensions:Sect
             'ratio':(round(I22/Ig_22,rounding_digits),round(I33/Ig_33,rounding_digits))}
 
 
-def calculate_effective_flexural_stiffness(Ec:float,
-                                           Ig:float,
-                                           I:float,
-                                           betta_dns:float = 0.7,
-                                           equation_a = False,
-                                           equation_c = False):
+def calculate_Ise(bar_count:float, bar_size:float, section_depth:float, concrete_cover:float) -> float:
+    '''
+    moment of inertia of reinforcement about centroidal axis of member cross section, mm⁴
+    concrete_cover = concrete cover + stirrups bar diameter
+    bar_count = for one face only
+    '''
+    dist = (section_depth - 2 * (concrete_cover + 0.5 * bar_size))*0.5
+    bar_area = math.pi * bar_size**2 / 4
+    return 2 * bar_count * bar_area * dist**2
+
+
+def calculate_effective_flexural_stiffness(
+        Ec:float,
+        Ig:float,
+        I:float,
+        Ise:float,
+        betta_dns:float = 0.7,
+        Es:float = 200_000,
+        equation_a = False,
+        equation_b = False,
+        equation_c = False):
     '''
     (EI)eff, N*mm²
-
+    Ec = modulus of elasticity of concrete, MPa
+    Es = modulus of elasticity of reinforcement and structural steel, excluding prestressing reinforcement, MPa
     betta_dns = ratio used to account for reduction of stiffness of columns due to sustained axial loads
+                as per code can be assumed 0.6
+    Ise = moment of inertia of reinforcement about centroidal axis of member cross section, mm⁴
+    Ig = moment of inertia of gross concrete section about centroidal axis, neglecting reinforcement, mm⁴
     '''
     if equation_a:
         return ((0.4*Ec*Ig)/(1+betta_dns)) # (6.6.4.4.4a)
+    elif equation_b:
+        return ((0.2*Ec*Ig + Es * Ise)/(1+betta_dns)) # (6.6.4.4.4b)
     elif equation_c:
         return ((Ec*I)/(1+betta_dns)) # (6.6.4.4.4c)
 
@@ -125,15 +149,26 @@ def calculate_minor_delta_ns(column:Column,
     )
     I = I_calculated['moment_of_inertia'][0] # 0 = minor, 1 = Major
     Ig = I / I_calculated['ratio'][0]
+    Ise = calculate_Ise(dim.rft_bars_2dir,dim.rft_bar_dia,dim.section_c22,dim.section_cc+10)
+
     Ec = 4700 * math.sqrt(material.fc)
     betta_dns = min(1, load.Pu_sustained / load.Pu)
-    EI_eff_a = calculate_effective_flexural_stiffness(Ec,Ig,I,betta_dns,equation_a=True)
-    EI_eff_c = calculate_effective_flexural_stiffness(Ec,Ig,I,betta_dns,equation_c=True)
+    
+    EI_eff_a = calculate_effective_flexural_stiffness(Ec=Ec,Ig=Ig,I=I,Ise=Ise,betta_dns=betta_dns,equation_a=True)
+
+
+    EI_eff_b = calculate_effective_flexural_stiffness(Ec=Ec,Ig=Ig,I=I,Ise=Ise,betta_dns=betta_dns,equation_b=True)
+
+    EI_eff_c = calculate_effective_flexural_stiffness(Ec=Ec,Ig=Ig,I=I,Ise=Ise,betta_dns=betta_dns,equation_c=True)
+
     Pc_a = calculate_critical_buckling_load(EI_eff_a,column.k_22, column.lu_22)
+    Pc_b = calculate_critical_buckling_load(EI_eff_b,column.k_22, column.lu_22)
     Pc_c = calculate_critical_buckling_load(EI_eff_c,column.k_22, column.lu_22)
+
     delta_ns_a = calculate_column_delta_non_sway(load.Pu,Pc_a,Cm)
+    delta_ns_b = calculate_column_delta_non_sway(load.Pu,Pc_b,Cm)
     delta_ns_c = calculate_column_delta_non_sway(load.Pu,Pc_c,Cm)
-    return {'Etabs': delta_ns_a, 'Method_C':delta_ns_c}
+    return {'Etabs': delta_ns_a,'Method_B':delta_ns_b, 'Method_C':delta_ns_c}
 
 
 def calculate_major_delta_ns(column:Column,
@@ -150,15 +185,25 @@ def calculate_major_delta_ns(column:Column,
     )
     I = I_calculated['moment_of_inertia'][1] # 0 = minor, 1 = Major
     Ig = I / I_calculated['ratio'][1]
+    Ise = calculate_Ise(dim.rft_bars_3dir,dim.rft_bar_dia,dim.section_c33,dim.section_cc+10)
+    
     Ec = 4700 * math.sqrt(material.fc)
     betta_dns = min(1, load.Pu_sustained / load.Pu)
-    EI_eff_a = calculate_effective_flexural_stiffness(Ec,Ig,I,betta_dns,equation_a=True)
-    EI_eff_c = calculate_effective_flexural_stiffness(Ec,Ig,I,betta_dns,equation_c=True)
+    EI_eff_a = calculate_effective_flexural_stiffness(Ec=Ec,Ig=Ig,I=I,Ise=Ise,betta_dns=betta_dns,equation_a=True)
+
+
+    EI_eff_b = calculate_effective_flexural_stiffness(Ec=Ec,Ig=Ig,I=I,Ise=Ise,betta_dns=betta_dns,equation_b=True)
+
+    EI_eff_c = calculate_effective_flexural_stiffness(Ec=Ec,Ig=Ig,I=I,Ise=Ise,betta_dns=betta_dns,equation_c=True)
+
     Pc_a = calculate_critical_buckling_load(EI_eff_a,column.k_33, column.lu_33)
+    Pc_b = calculate_critical_buckling_load(EI_eff_b,column.k_33, column.lu_33)
     Pc_c = calculate_critical_buckling_load(EI_eff_c,column.k_33, column.lu_33)
+
     delta_ns_a = calculate_column_delta_non_sway(load.Pu,Pc_a,Cm)
+    delta_ns_b = calculate_column_delta_non_sway(load.Pu,Pc_b,Cm)
     delta_ns_c = calculate_column_delta_non_sway(load.Pu,Pc_c,Cm)
-    return {'Etabs': delta_ns_a, 'Method_C':delta_ns_c}
+    return {'Etabs': delta_ns_a,'Method_B':delta_ns_b , 'Method_C':delta_ns_c}
 
 
 

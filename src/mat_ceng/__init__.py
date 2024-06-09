@@ -12,4 +12,5 @@ from mat_ceng.column import(
     calculate_column_actual_moment_of_inertia,
     calculate_minor_delta_ns,
     calculate_major_delta_ns,
-    calculate_Cm)
+    calculate_Cm,
+    calculate_Ise)
