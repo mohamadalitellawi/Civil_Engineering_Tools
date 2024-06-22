@@ -2,7 +2,7 @@
 Package For Some Civil Engineering Tools
 '''
 
-__version__ = '0.0.5'
+__version__ = '0.0.6'
 
 
 
@@ -14,3 +14,4 @@ from mat_ceng.column import(
     calculate_major_delta_ns,
     calculate_Cm,
     calculate_Ise)
+from mat_ceng.column_area import (get_column_area_loads)
