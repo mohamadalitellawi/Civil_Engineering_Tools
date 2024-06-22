@@ -21,15 +21,21 @@ class ColumnArea:
     trib_area: Polygon
     occupancies: dict
     column_load: Optional[np.ndarray] = None
-    def get_combined_load(self, load_factors:np.ndarray = np.zeros(3), scale_factor:float = 1.0):
+    load_scale_factor:float = 1.0
+    def get_combined_load(self, load_factors:np.ndarray = np.array([1.4,1.7,0])):
         if self.column_load.any():
-            return (self.column_load * load_factors).sum() * scale_factor
+            return (self.column_load * load_factors).sum() * self.load_scale_factor
         else:
             return 0
 
 # assumed unit is mm for length and area, KPA for area loading, KN for force
 
-def get_column_area_loads(floor_data:dict, occupancy_loading:dict, max_seg_length:float = 300) -> list[ColumnArea]:
+def get_column_area_loads(
+        floor_data:dict, 
+        occupancy_loading:dict, 
+        max_seg_length:float = 300,
+        include_openings:bool = True,
+        multiple_occupancy_categories:bool = True) -> list[ColumnArea]:
     '''
     return list of columnarea class
 
@@ -38,23 +44,32 @@ def get_column_area_loads(floor_data:dict, occupancy_loading:dict, max_seg_lengt
     max_seg_length: for walls only
     '''
     slab_outline = floor_data.get('slab_outline', [])
-    slab_openings = floor_data.get('slab_openings',[])
     columns = floor_data.get('columns',[])
     walls = floor_data.get('walls',[])
-    load_light = floor_data.get('light_occupancy',[])
-    load_heavy = floor_data.get('heavy_occupancy',[])
 
     slab_outline = Polygon(slab_outline)
-    load_light = Polygon(load_light)
-    load_heavy = Polygon(load_heavy)
-    slab_openings = MultiPolygon([Polygon(outline) for outline in slab_openings])
     columns = MultiPolygon([Polygon(outline) for outline in columns])
     walls = MultiPolygon([Polygon(outline) for outline in walls])
 
-    slab = Polygon(
-        shell = slab_outline.exterior.coords,
-        holes = [opening.exterior.coords for opening in slab_openings.geoms]
-    )
+
+    if multiple_occupancy_categories:
+        load_light = floor_data.get('light_occupancy',[])
+        load_heavy = floor_data.get('heavy_occupancy',[])
+        load_light = Polygon(load_light)
+        load_heavy = Polygon(load_heavy)
+    else:
+        load_light = Polygon(slab_outline)
+        load_heavy = Polygon([])
+
+    if include_openings:
+        slab_openings = floor_data.get('slab_openings',[])
+        slab_openings = MultiPolygon([Polygon(outline) for outline in slab_openings])
+        slab = Polygon(
+            shell = slab_outline.exterior.coords,
+            holes = [opening.exterior.coords for opening in slab_openings.geoms]
+        )
+    else:
+        slab = Polygon(shell = slab_outline.exterior.coords)
 
     # Make sure the first/last point is not duplicated in the list
     column_points = [list(column.exterior.coords)[:-1] for column in columns.geoms]
