@@ -8,3 +8,4 @@ typing
 pytest
 shapely
 plotly
+more_itertools
