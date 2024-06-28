@@ -6,6 +6,5 @@ xlwings
 pathlib
 typing
 pytest
-json
 shapely
 plotly
