@@ -1,4 +1,0 @@
-2024-12-30 09:22:06,595 | <module> | WARNING | 19 | starting the program
-2024-12-30 09:22:11,928 | <module> | WARNING | 17 | No running instance of the program found or failed to attach.
-2024-12-30 09:22:29,742 | <module> | ERROR | 17 | No running instance of the program found or failed to attach.
-2024-12-30 09:24:31,115 | <module> | INFO | 19 | starting the program
