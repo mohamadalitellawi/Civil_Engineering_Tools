@@ -1,0 +1,119 @@
+2025-01-14 01:30:12,404 | <module> | INFO | 19 | starting the program
+2025-01-14 01:30:14,798 | add_column | WARNING | 55 | Error in adding column 5777465
+2025-01-14 01:30:14,803 | add_column | WARNING | 55 | Error in adding column 5777973
+2025-01-14 01:30:14,808 | add_column | WARNING | 55 | Error in adding column 5777984
+2025-01-14 01:30:14,814 | add_column | WARNING | 55 | Error in adding column 5777993
+2025-01-14 01:30:14,820 | add_column | WARNING | 55 | Error in adding column 5778002
+2025-01-14 01:30:14,835 | add_column | WARNING | 55 | Error in adding column 5791138
+2025-01-14 01:30:14,839 | add_column | WARNING | 55 | Error in adding column 5791139
+2025-01-14 01:30:14,844 | add_column | WARNING | 55 | Error in adding column 5791140
+2025-01-14 01:30:14,849 | add_column | WARNING | 55 | Error in adding column 5791141
+2025-01-14 01:30:14,855 | add_column | WARNING | 55 | Error in adding column 5791149
+2025-01-14 01:30:14,860 | add_column | WARNING | 55 | Error in adding column 5791150
+2025-01-14 01:30:14,865 | add_column | WARNING | 55 | Error in adding column 5791151
+2025-01-14 01:30:14,870 | add_column | WARNING | 55 | Error in adding column 5791152
+2025-01-14 01:30:14,875 | add_column | WARNING | 55 | Error in adding column 5791153
+2025-01-14 01:30:14,880 | add_column | WARNING | 55 | Error in adding column 5791154
+2025-01-14 01:30:14,884 | add_column | WARNING | 55 | Error in adding column 5791155
+2025-01-14 01:30:14,889 | add_column | WARNING | 55 | Error in adding column 5791156
+2025-01-14 01:30:14,894 | add_column | WARNING | 55 | Error in adding column 5791157
+2025-01-14 01:30:14,899 | add_column | WARNING | 55 | Error in adding column 5791158
+2025-01-14 01:30:14,904 | add_column | WARNING | 55 | Error in adding column 5791159
+2025-01-14 01:30:14,909 | add_column | WARNING | 55 | Error in adding column 5791160
+2025-01-14 01:30:14,919 | add_column | WARNING | 55 | Error in adding column 5791161
+2025-01-14 01:30:14,924 | add_column | WARNING | 55 | Error in adding column 5791162
+2025-01-14 01:30:16,530 | add_beam | WARNING | 59 | Error in adding beam 5775785
+2025-01-14 01:30:16,534 | add_beam | WARNING | 59 | Error in adding beam 5776230
+2025-01-14 01:30:16,539 | add_beam | WARNING | 59 | Error in adding beam 5776238
+2025-01-14 01:30:16,544 | add_beam | WARNING | 59 | Error in adding beam 5776248
+2025-01-14 01:30:16,549 | add_beam | WARNING | 59 | Error in adding beam 5776258
+2025-01-14 01:30:16,552 | add_beam | WARNING | 59 | Error in adding beam 5776268
+2025-01-14 01:30:16,557 | add_beam | WARNING | 59 | Error in adding beam 5776276
+2025-01-14 01:30:16,566 | add_beam | WARNING | 59 | Error in adding beam 5776284
+2025-01-14 01:30:16,569 | add_beam | WARNING | 59 | Error in adding beam 5776292
+2025-01-14 01:30:16,578 | add_beam | WARNING | 59 | Error in adding beam 5776853
+2025-01-14 01:30:16,582 | add_beam | WARNING | 59 | Error in adding beam 5777048
+2025-01-14 01:30:16,587 | add_beam | WARNING | 59 | Error in adding beam 5777058
+2025-01-14 01:30:16,592 | add_beam | WARNING | 59 | Error in adding beam 5777070
+2025-01-14 01:30:16,596 | add_beam | WARNING | 59 | Error in adding beam 5777080
+2025-01-14 01:30:16,601 | add_beam | WARNING | 59 | Error in adding beam 5777088
+2025-01-14 01:30:16,607 | add_beam | WARNING | 59 | Error in adding beam 5777098
+2025-01-14 01:30:16,610 | add_beam | WARNING | 59 | Error in adding beam 5777106
+2025-01-14 01:30:16,616 | add_beam | WARNING | 59 | Error in adding beam 5777114
+2025-01-14 01:30:16,638 | add_beam | WARNING | 59 | Error in adding beam 5783002
+2025-01-14 01:30:16,642 | add_beam | WARNING | 59 | Error in adding beam 5783218
+2025-01-14 01:30:16,648 | add_beam | WARNING | 59 | Error in adding beam 5783323
+2025-01-14 01:30:16,652 | add_beam | WARNING | 59 | Error in adding beam 5783324
+2025-01-14 01:30:16,656 | add_beam | WARNING | 59 | Error in adding beam 5783407
+2025-01-14 01:30:16,661 | add_beam | WARNING | 59 | Error in adding beam 5783776
+2025-01-14 01:30:16,665 | add_beam | WARNING | 59 | Error in adding beam 5783930
+2025-01-14 01:30:16,671 | add_beam | WARNING | 59 | Error in adding beam 5783931
+2025-01-14 01:30:16,676 | add_beam | WARNING | 59 | Error in adding beam 5783957
+2025-01-14 01:30:16,681 | add_beam | WARNING | 59 | Error in adding beam 5783958
+2025-01-14 01:30:16,686 | add_beam | WARNING | 59 | Error in adding beam 5783959
+2025-01-14 01:30:16,690 | add_beam | WARNING | 59 | Error in adding beam 5783960
+2025-01-14 01:30:16,693 | add_beam | WARNING | 59 | Error in adding beam 5783970
+2025-01-14 01:30:16,697 | add_beam | WARNING | 59 | Error in adding beam 5783971
+2025-01-14 01:30:16,703 | add_beam | WARNING | 59 | Error in adding beam 5783972
+2025-01-14 01:30:16,708 | add_beam | WARNING | 59 | Error in adding beam 5783973
+2025-01-14 01:30:16,712 | add_beam | WARNING | 59 | Error in adding beam 5783989
+2025-01-14 01:30:16,719 | add_beam | WARNING | 59 | Error in adding beam 5783990
+2025-01-14 01:30:16,722 | add_beam | WARNING | 59 | Error in adding beam 5783991
+2025-01-14 01:30:16,727 | add_beam | WARNING | 59 | Error in adding beam 5783992
+2025-01-14 01:30:16,733 | add_beam | WARNING | 59 | Error in adding beam 5784017
+2025-01-14 01:30:16,737 | add_beam | WARNING | 59 | Error in adding beam 5784018
+2025-01-14 01:30:16,741 | add_beam | WARNING | 59 | Error in adding beam 5784019
+2025-01-14 01:30:16,744 | add_beam | WARNING | 59 | Error in adding beam 5784020
+2025-01-14 01:30:16,751 | add_beam | WARNING | 59 | Error in adding beam 5784030
+2025-01-14 01:30:16,755 | add_beam | WARNING | 59 | Error in adding beam 5784031
+2025-01-14 01:30:16,758 | add_beam | WARNING | 59 | Error in adding beam 5784032
+2025-01-14 01:30:16,764 | add_beam | WARNING | 59 | Error in adding beam 5784033
+2025-01-14 01:30:16,769 | add_beam | WARNING | 59 | Error in adding beam 5784045
+2025-01-14 01:30:16,774 | add_beam | WARNING | 59 | Error in adding beam 5784046
+2025-01-14 01:30:16,780 | add_beam | WARNING | 59 | Error in adding beam 5784047
+2025-01-14 01:30:16,783 | add_beam | WARNING | 59 | Error in adding beam 5784048
+2025-01-14 01:30:16,786 | add_beam | WARNING | 59 | Error in adding beam 5784058
+2025-01-14 01:30:16,791 | add_beam | WARNING | 59 | Error in adding beam 5784059
+2025-01-14 01:30:16,796 | add_beam | WARNING | 59 | Error in adding beam 5784060
+2025-01-14 01:30:16,800 | add_beam | WARNING | 59 | Error in adding beam 5784061
+2025-01-14 01:30:17,058 | add_non_beam | WARNING | 42 | Error in adding dummy beam of floor [5760864, 5769685, 5769802]
+2025-01-14 01:30:17,062 | add_non_beam | WARNING | 42 | Error in adding dummy beam of floor [5760864, 5769685, 5769802]
+2025-01-14 01:30:17,066 | add_non_beam | WARNING | 42 | Error in adding dummy beam of floor [5760864, 5769685, 5769802]
+2025-01-14 01:30:17,069 | add_non_beam | WARNING | 42 | Error in adding dummy beam of floor [5760864, 5769685, 5769802]
+2025-01-14 01:30:17,074 | add_non_beam | WARNING | 42 | Error in adding dummy beam of floor [5760864, 5769685, 5769802]
+2025-01-14 01:30:17,078 | add_non_beam | WARNING | 42 | Error in adding dummy beam of floor [5760864, 5769685, 5769802]
+2025-01-14 01:30:17,081 | add_non_beam | WARNING | 42 | Error in adding dummy beam of floor [5760864, 5769685, 5769802]
+2025-01-14 01:30:17,085 | add_non_beam | WARNING | 42 | Error in adding dummy beam of floor [5760864, 5769685, 5769802]
+2025-01-14 01:30:17,104 | add_non_beam | WARNING | 42 | Error in adding dummy beam of floor [5771333, 5771361, 5771369]
+2025-01-14 01:30:17,108 | add_non_beam | WARNING | 42 | Error in adding dummy beam of floor [5771333, 5771361, 5771369]
+2025-01-14 01:30:17,112 | add_non_beam | WARNING | 42 | Error in adding dummy beam of floor [5771333, 5771361, 5771369]
+2025-01-14 01:30:17,115 | add_non_beam | WARNING | 42 | Error in adding dummy beam of floor [5771333, 5771361, 5771369]
+2025-01-14 01:30:17,121 | add_non_beam | WARNING | 42 | Error in adding dummy beam of floor [5771333, 5771361, 5771369]
+2025-01-14 01:30:17,125 | add_non_beam | WARNING | 42 | Error in adding dummy beam of floor [5771333, 5771361, 5771369]
+2025-01-14 01:30:17,128 | add_non_beam | WARNING | 42 | Error in adding dummy beam of floor [5771333, 5771361, 5771369]
+2025-01-14 01:30:17,132 | add_non_beam | WARNING | 42 | Error in adding dummy beam of floor [5771333, 5771361, 5771369]
+2025-01-14 01:30:17,161 | add_non_beam | WARNING | 42 | Error in adding dummy beam of floor [5771435, 5771463, 5771471]
+2025-01-14 01:30:17,167 | add_non_beam | WARNING | 42 | Error in adding dummy beam of floor [5771435, 5771463, 5771471]
+2025-01-14 01:30:17,170 | add_non_beam | WARNING | 42 | Error in adding dummy beam of floor [5771435, 5771463, 5771471]
+2025-01-14 01:30:17,175 | add_non_beam | WARNING | 42 | Error in adding dummy beam of floor [5771435, 5771463, 5771471]
+2025-01-14 01:30:17,179 | add_non_beam | WARNING | 42 | Error in adding dummy beam of floor [5771435, 5771463, 5771471]
+2025-01-14 01:30:17,183 | add_non_beam | WARNING | 42 | Error in adding dummy beam of floor [5771435, 5771463, 5771471]
+2025-01-14 01:30:17,187 | add_non_beam | WARNING | 42 | Error in adding dummy beam of floor [5771435, 5771463, 5771471]
+2025-01-14 01:30:17,197 | add_non_beam | WARNING | 42 | Error in adding dummy beam of floor [5771435, 5771463, 5771471]
+2025-01-14 01:30:17,213 | add_non_beam | WARNING | 42 | Error in adding dummy beam of floor [5771282, 5771310, 5771318]
+2025-01-14 01:30:17,217 | add_non_beam | WARNING | 42 | Error in adding dummy beam of floor [5771282, 5771310, 5771318]
+2025-01-14 01:30:17,221 | add_non_beam | WARNING | 42 | Error in adding dummy beam of floor [5771282, 5771310, 5771318]
+2025-01-14 01:30:17,224 | add_non_beam | WARNING | 42 | Error in adding dummy beam of floor [5771282, 5771310, 5771318]
+2025-01-14 01:30:17,231 | add_non_beam | WARNING | 42 | Error in adding dummy beam of floor [5771282, 5771310, 5771318]
+2025-01-14 01:30:17,235 | add_non_beam | WARNING | 42 | Error in adding dummy beam of floor [5771282, 5771310, 5771318]
+2025-01-14 01:30:17,239 | add_non_beam | WARNING | 42 | Error in adding dummy beam of floor [5771282, 5771310, 5771318]
+2025-01-14 01:30:17,246 | add_non_beam | WARNING | 42 | Error in adding dummy beam of floor [5771282, 5771310, 5771318]
+2025-01-14 01:30:17,261 | add_non_beam | WARNING | 42 | Error in adding dummy beam of floor [5771384, 5771412, 5771420]
+2025-01-14 01:30:17,265 | add_non_beam | WARNING | 42 | Error in adding dummy beam of floor [5771384, 5771412, 5771420]
+2025-01-14 01:30:17,268 | add_non_beam | WARNING | 42 | Error in adding dummy beam of floor [5771384, 5771412, 5771420]
+2025-01-14 01:30:17,275 | add_non_beam | WARNING | 42 | Error in adding dummy beam of floor [5771384, 5771412, 5771420]
+2025-01-14 01:30:17,279 | add_non_beam | WARNING | 42 | Error in adding dummy beam of floor [5771384, 5771412, 5771420]
+2025-01-14 01:30:17,284 | add_non_beam | WARNING | 42 | Error in adding dummy beam of floor [5771384, 5771412, 5771420]
+2025-01-14 01:30:17,290 | add_non_beam | WARNING | 42 | Error in adding dummy beam of floor [5771384, 5771412, 5771420]
+2025-01-14 01:30:17,296 | add_non_beam | WARNING | 42 | Error in adding dummy beam of floor [5771384, 5771412, 5771420]
+2025-01-14 01:30:17,317 | add_non_beam | WARNING | 42 | Error in adding dummy beam of floor [5771486, 5794775]
