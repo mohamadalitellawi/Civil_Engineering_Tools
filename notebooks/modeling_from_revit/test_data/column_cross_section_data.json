@@ -1,1 +1,1 @@
-[[0, {"name": "STR_SCL_800x800", "section_type": "REC", "b": 800.0, "h": 800.0, "rebar": null, "material_grade": "FC30"}], [1, {"name": "STR_SCL_1200x1200", "section_type": "REC", "b": 1200.0, "h": 1200.0, "rebar": null, "material_grade": "FC30"}]]
+[[0, {"name": "STR_SCL_400x800", "section_type": "REC", "b": 400.0, "h": 800.0, "rebar": null, "material_grade": "FC30"}]]
