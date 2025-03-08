@@ -1,1 +1,1 @@
-[[0, {"name": "HES_STR_WLL_250_ConcreteWall", "thk": 250.0, "material_grade": "FC30"}]]
+[[0, {"name": "HES_STR_WLL_400_ConcreteWall", "thk": 400.0, "material_grade": "FC40"}], [1, {"name": "HES_STR_WLL_500_ConcreteWall", "thk": 500.0, "material_grade": "FC40"}], [2, {"name": "HES_STR_WLL_300_ConcreteWall", "thk": 300.0, "material_grade": "FC40"}]]
