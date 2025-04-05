@@ -36,19 +36,12 @@ col_trib_forces = st.Page(
 if st.session_state.logged_in:
     pg = st.navigation(
         {
-            "Main": [dashboard],
             "Account": [logout_page],
-            "RC Column Tools": [col_dns_short, col_dns],
+            "RC Column Tools": [dashboard, col_dns_short, col_dns],
             "Forces Tools": [col_trib_forces],
         }
     )
 else:
-#    pg = st.navigation([login_page])
-    pg = st.navigation(
-        {
-            "Main": [dashboard],
-            "Account": [login_page],
-        }
-    )
+    pg = st.navigation([login_page])
 
 pg.run()
