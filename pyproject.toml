@@ -13,8 +13,15 @@ dependencies = [
     "numpy",
     "pandas",
     "xlwings",
-    "pathlib",
-    "typing"
+    "streamlit",
+    "pytest",
+    "shapely",
+    "plotly",
+    "more_itertools",
+    "pythonnet",
+    "matplotlib",
+    "openpyxl",
+
 ]
 
 [project.urls]

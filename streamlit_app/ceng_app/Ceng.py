@@ -6,7 +6,7 @@ st.set_page_config(
 )
 
 st.write("# Welcome to Civil Engineering Tools! 👋")
-
+st.write(('streamlit version: ', st.__version__))
 st.markdown(
     """
     ### Introduction
