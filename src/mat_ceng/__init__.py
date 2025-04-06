@@ -15,3 +15,4 @@ from mat_ceng.column import(
     calculate_Cm,
     calculate_Ise)
 from mat_ceng.column_area import (get_column_area_loads)
+import mat_ceng.csi as csi
