@@ -117,6 +117,21 @@ class CsiHelper:
                 pass
         
 
+    @classmethod
+    def set_etabs_units(cls, units = etabs_units['N_mm_C']):
+        """
+        set ETABS units.
+        """
+        if cls._SapModel:
+            ret = cls._SapModel.SetPresentUnits(units)
+    
+    @classmethod
+    def set_sap_units(cls, units = sap_units['N_mm_C']):
+        """
+        set SAP units.
+        """
+        if cls._SapModel:
+            ret = cls._SapModel.SetPresentUnits(units)
 
     @classmethod
     def release_csi_models(cls, refresh_view = True):

@@ -32,9 +32,9 @@ col_trib_forces = st.Page(
     "pages/forces/01_Column_Trib_Forces.py"
 )
 
-etabs_warnings = st.Page(
-    "pages/csi/etabs_warnings.py"
-)
+#etabs_warnings = st.Page(
+#    "pages/csi/etabs_warnings.py"
+#)
 
 
 if st.session_state.logged_in:
@@ -44,7 +44,7 @@ if st.session_state.logged_in:
             "Account": [logout_page],
             "RC Column Tools": [col_dns_short, col_dns],
             "Forces Tools": [col_trib_forces],
-            "CSI Tools": [etabs_warnings],
+            #"CSI Tools": [etabs_warnings],
         }
     )
 else:
