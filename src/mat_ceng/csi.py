@@ -7,20 +7,21 @@ Provides a CsiHelper class using class methods to manage a shared connection sta
 """
 
 from pythonnet import load
+load('mono')
 
-try:
-    # Try loading .NET Core / .NET
-    load('coreclr')
-except:
-    try:
-        # If that fails, try loading Mono (less common now)
-        load('mono')
-    except:
-        # Handle the case where neither can be loaded
-        print("Could not load .NET runtime. Make sure one is installed and accessible.")
-        # You might want to raise an error or exit here
-        import sys
-        sys.exit(1)
+# try:
+#     # Try loading .NET Core / .NET
+#     load('coreclr')
+# except:
+#     try:
+#         # If that fails, try loading Mono (less common now)
+#         load('mono')
+#     except:
+#         # Handle the case where neither can be loaded
+#         print("Could not load .NET runtime. Make sure one is installed and accessible.")
+#         # You might want to raise an error or exit here
+#         import sys
+#         sys.exit(1)
 
 import clr
 
