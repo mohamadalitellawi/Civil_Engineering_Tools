@@ -6,9 +6,7 @@ like ETABS and SAP2000 using their OAPI via pythonnet.
 Provides a CsiHelper class using class methods to manage a shared connection state.
 """
 
-from pythonnet import load
-load('mono')
-
+# from pythonnet import load
 # try:
 #     # Try loading .NET Core / .NET
 #     load('coreclr')
@@ -22,10 +20,8 @@ load('mono')
 #         # You might want to raise an error or exit here
 #         import sys
 #         sys.exit(1)
+# import clr
 
-import clr
-
-import clr
 import logging
 import sys
 from typing import Optional, Dict, Any, List, Tuple, Union # Added Union
@@ -47,6 +43,7 @@ PROGID_SAP = "CSI.SAP2000.API.SapObject"
 
 # --- CLR Setup ---
 try:
+    import clr
     clr.AddReference("System.Runtime.InteropServices")
     from System.Runtime.InteropServices import Marshal
 except ImportError as e:
