@@ -5,8 +5,25 @@ like ETABS and SAP2000 using their OAPI via pythonnet.
 
 Provides a CsiHelper class using class methods to manage a shared connection state.
 """
+
 from pythonnet import load
-load('coreclr')
+
+try:
+    # Try loading .NET Core / .NET
+    load('coreclr')
+except:
+    try:
+        # If that fails, try loading Mono (less common now)
+        load('mono')
+    except:
+        # Handle the case where neither can be loaded
+        print("Could not load .NET runtime. Make sure one is installed and accessible.")
+        # You might want to raise an error or exit here
+        import sys
+        sys.exit(1)
+
+import clr
+
 import clr
 import logging
 import sys
