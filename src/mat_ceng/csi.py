@@ -1,36 +1,49 @@
-import clr
-clr.AddReference("System.Runtime.InteropServices")
-from System.Runtime.InteropServices import Marshal
 
-#set the following path to the installed SAP2000 program directory
-clr.AddReference(R'C:\Program Files\Computers and Structures\SAP2000 26\SAP2000v1.dll')
-import SAP2000v1 as sap
-
-#set the following path to the installed ETABS program directory
-clr.AddReference(R'C:\Program Files\Computers and Structures\ETABS 22\ETABSv1.dll')
-import ETABSv1 as etabs
-
-etabs_units = {
-'N_mm_C' : etabs.eUnits.N_mm_C,
-'kN_m_C' : etabs.eUnits.kN_m_C,
-}
-
-sap_units = {
-    'N_mm_C': sap.eUnits.N_mm_C,
-    'kN_m_C': sap.eUnits.kN_m_C,
-}
 
 
 
 class CsiHelper:
     """Manage Csi Models and Objects."""
 
+    _sap = None
+    _etabs = None
+
     _SapModel = None
     _mySapObject = None
     _myETABSObject = None
 
-    @classmethod
-    def connect_to_etabs(cls, units = etabs_units['N_mm_C']):
+
+    def __init__(self,
+                 sap_dll = R'C:\Program Files\Computers and Structures\SAP2000 26\SAP2000v1.dll',
+                 etabs_dll = R'C:\Program Files\Computers and Structures\ETABS 22\ETABSv1.dll'):
+        import clr
+        clr.AddReference("System.Runtime.InteropServices")
+        from System.Runtime.InteropServices import Marshal
+
+        #set the following path to the installed SAP2000 program directory
+        clr.AddReference(sap_dll)
+        import SAP2000v1 as sap
+
+        #set the following path to the installed ETABS program directory
+        clr.AddReference(etabs_dll)
+        import ETABSv1 as etabs
+
+        self._sap = sap
+        self._etabs = etabs
+
+    _etabs_units = {
+    'N_mm_C' : _etabs.eUnits.N_mm_C,
+    'kN_m_C' : _etabs.eUnits.kN_m_C,
+    }
+
+    _sap_units = {
+        'N_mm_C': _sap.eUnits.N_mm_C,
+        'kN_m_C': _sap.eUnits.kN_m_C,
+    }
+
+
+ 
+    def connect_to_etabs(self, unit = 'N_mm_C'):
         """
         Connect To Running Etabs Instance.
         check if already connected.
@@ -41,34 +54,36 @@ class CsiHelper:
             Etabs SapModel object
         """
 
-        if cls._SapModel is not None:
+        units = self._etabs_units[unit]
+
+        if self._SapModel is not None:
             if units is not None:
-                ret = cls._SapModel.SetPresentUnits(units)
-            return cls._SapModel
+                ret = self._SapModel.SetPresentUnits(units)
+            return self._SapModel
         
         #create API helper object
-        helper = etabs.cHelper(etabs.Helper())
+        helper = self._etabs.cHelper(self._etabs.Helper())
 
         try:
-            myETABSObject = etabs.cOAPI(helper.GetObject("CSI.ETABS.API.ETABSObject"))
-            cls._myETABSObject = myETABSObject
+            myETABSObject = self._etabs.cOAPI(helper.GetObject("CSI.ETABS.API.ETABSObject"))
+            self._myETABSObject = myETABSObject
         except:
             error_msg = "No running ETABS instance of the program found or failed to attach."
             raise Exception(error_msg)
             
 
         #create SapModel object
-        SapModel = etabs.cSapModel(myETABSObject.SapModel)
+        SapModel = self._etabs.cSapModel(myETABSObject.SapModel)
         if units is not None:
             ret = SapModel.SetPresentUnits(units)
 
-        cls._SapModel = SapModel
-        return cls._SapModel
+        self._SapModel = SapModel
+        return self._SapModel
 
 
 
-    @classmethod
-    def connect_to_sap(cls, units = sap_units['N_mm_C']):
+
+    def connect_to_sap(self, unit = 'N_mm_C'):
         """
         Connect To Running SAP2000 Instance.
         check if already connected.
@@ -79,62 +94,66 @@ class CsiHelper:
             SAP2000 SapModel object
         """
 
-        if cls._SapModel is not None:
+        units = self._sap_units[unit]
+
+        if self._SapModel is not None:
             if units is not None:
-                ret = cls._SapModel.SetPresentUnits(units)
-            cls._SapModel = SapModel
-            return cls._SapModel
+                ret = self._SapModel.SetPresentUnits(units)
+            self._SapModel = SapModel
+            return self._SapModel
         
         #create API helper object
-        helper = sap.cHelper(sap.Helper())
+        helper = self._sap.cHelper(self._sap.Helper())
 
         try:
-            mySapObject = sap.cOAPI(helper.GetObject("CSI.SAP2000.API.SapObject"))
-            cls._mySapObject = mySapObject
+            mySapObject = self._sap.cOAPI(helper.GetObject("CSI.SAP2000.API.SapObject"))
+            self._mySapObject = mySapObject
         except:
             error_msg = "No running SAP2000 instance of the program found or failed to attach."
             raise Exception(error_msg)
             
 
         #create SapModel object
-        SapModel = sap.cSapModel(mySapObject.SapModel)
+        SapModel = self._sap.cSapModel(mySapObject.SapModel)
         if units is not None:
             ret = SapModel.SetPresentUnits(units)
 
-        cls._SapModel = SapModel
-        return cls._SapModel
+        self._SapModel = SapModel
+        return self._SapModel
     
 
-    @classmethod
-    def refresh_view(cls):
+
+    def refresh_view(self):
         """
         refresh ETABS/SAP2000 view.
         """
-        if cls._SapModel:
+        if self._SapModel:
             try:
-                ret = cls._SapModel.View.RefreshView(0, False)
+                ret = self._SapModel.View.RefreshView(0, False)
             except:
                 pass
         
 
-    @classmethod
-    def set_etabs_units(cls, units = etabs_units['N_mm_C']):
+ 
+    def set_etabs_units(self, unit = 'N_mm_C'):
         """
         set ETABS units.
         """
-        if cls._SapModel:
-            ret = cls._SapModel.SetPresentUnits(units)
+        units = self._etabs_units[unit]
+        if self._SapModel:
+            ret = self._SapModel.SetPresentUnits(units)
     
-    @classmethod
-    def set_sap_units(cls, units = sap_units['N_mm_C']):
+
+    def set_sap_units(self, unit='N_mm_C'):
         """
         set SAP units.
         """
-        if cls._SapModel:
-            ret = cls._SapModel.SetPresentUnits(units)
+        units = self._sap_units[unit]
+        if self._SapModel:
+            ret = self._SapModel.SetPresentUnits(units)
 
-    @classmethod
-    def release_csi_models(cls, refresh_view = True):
+
+    def release_csi_models(self, refresh_view = True):
         """
         clean and release current csi objects,
         with option to refresh view.
@@ -142,11 +161,11 @@ class CsiHelper:
 
         if refresh_view:
             #refresh view
-            cls.refresh_view()
+            self.refresh_view()
 
-        cls._SapModel = None
-        cls._mySapObject = None
-        cls._myETABSObject = None
+        self._SapModel = None
+        self._mySapObject = None
+        self._myETABSObject = None
 
 
 def _get_warning_area_coordinates(coordinates, size = 500.0):
