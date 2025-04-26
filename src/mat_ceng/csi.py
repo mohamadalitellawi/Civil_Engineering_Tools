@@ -5,7 +5,8 @@ like ETABS and SAP2000 using their OAPI via pythonnet.
 
 Provides a CsiHelper class using class methods to manage a shared connection state.
 """
-
+from pythonnet import load
+load('coreclr')
 import clr
 import logging
 import sys
