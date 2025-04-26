@@ -479,12 +479,12 @@ class CsiHelper:
 # --- Helper Functions (using the CsiHelper class directly) ---
 
 # Note: Consider moving geometry-specific helpers to a separate module if they grow.
-def _get_warning_area_coordinates(coordinates: List[float], size: float = 500.0) -> Dict[str, Any]:
+def _get_warning_area_arguments(locations: List[float], size: float = 500.0) -> Dict[str, Any]:
     """
     Prepares coordinate data for a small triangular area used as a warning marker.
 
     Args:
-        coordinates (List[float]): [x, y, z] center coordinates.
+        locations (List[float]): [x, y, z] warning location coordinates.
         size (float): Approx. base size of the triangle marker (in current model units).
 
     Returns:
@@ -497,113 +497,58 @@ def _get_warning_area_coordinates(coordinates: List[float], size: float = 500.0)
     num_points = 3
     csys = 'Global'
 
-    x_loc, y_loc, z_loc = coordinates[0], coordinates[1], coordinates[2]
+    x_loc, y_loc, z_loc = locations[0], locations[1], locations[2]
 
-    # Define a small triangular area centered roughly at the coords
-    half_size = size / 2.0
-    height = half_size * 1.732 # Approx sqrt(3) for equilateral height
-
-    x_coords = [x_loc, x_loc - half_size, x_loc + half_size]
-    y_coords = [y_loc + height * 2/3, y_loc - height * 1/3, y_loc - height * 1/3] # Centroid adjusted
+    x_coords = [x_loc, x_loc - size, x_loc + size]
+    y_coords = [y_loc, y_loc - size * 2.0 , y_loc - size * 2.0]
     z_coords = [z_loc] * num_points # Flat area at the specified elevation
 
     # Match API argument names expected by AddByCoord
-    # Note: API expects lists/tuples for coordinate arrays
     return {
         'NumberPoints': num_points,
-        'X': list(x_coords),
-        'Y': list(y_coords),
-        'Z': list(z_coords),
-        'PropName': section_name,
+        'X': x_coords,
+        'Y': y_coords,
+        'Z': z_coords,
+        'Name': '',
+        'PropName': section_name or 'Default',
         'UserName': user_name,
         'CSys': csys
     }
 
-
-def add_area(coords: List[float], group_name: str = 'Warnings') -> Optional[str]:
+def add_etabs_area(AddByCoord_args: Dict[str, Any]) -> Optional[str]:
     """
-    Adds a small triangular "warning" area object in ETABS at the specified coordinates.
+    Adds a area object in ETABS at the specified coordinates.
 
-    Connects to ETABS using CsiHelper if not already connected. Creates the
-    specified group if it doesn't exist and assigns the new area to it.
+    Connects to ETABS using CsiHelper if not already connected. 
 
     Args:
-        coords (List[float]): [x, y, z] coordinates for the area center (in current model units).
-        group_name (str): Name of the group to create (if needed) and assign the area to.
+        AddByCoord_args (Dict[str, Any]): Dictionary suitable for SapModel.AreaObj.AddByCoord arguments.
 
     Returns:
         Optional[str]: The name of the created area object, or None on failure.
     """
-    logger.info(f"Attempting to add warning area at {coords} to group '{group_name}'.")
+    logger.info(f"Attempting to add ETABS area at {AddByCoord_args}")
     try:
-        # Ensure connected to ETABS. Use unit=None to avoid changing current units.
+        # Ensure connected to ETABS. Use unit=None to
         SapModel = CsiHelper.connect_to_etabs(unit=None)
-        # No need to check if SapModel is None here, connect_to_etabs raises on failure
+        if not SapModel:
+            logger.warning("Failed to connect to ETABS. Cannot add area.")
+            return None
 
-        coord_data = _get_warning_area_coordinates(coords)
-
-        # Prepare output parameters for AddByCoord using clr.Reference
-        # API definition: AddByCoord(long NumberPoints, ref double X[], ref double Y[], ref double Z[],
-        #                           ref string Name, string PropName = "Default", string UserName = "", string CSys = "Global")
-        # Note: The 'Name' parameter seems to be *output* in practice, despite 'ref' in some docs.
-        # We pass UserName='' and let ETABS assign the name. The returned name is the key.
-        # The API actually returns [ret_code, Name] or similar tuple structure.
-        # Let's use clr.Reference for clarity if needed, but often direct call works if pythonnet handles marshalling.
-        # Testing shows direct call often works for simple out params like strings.
-
-        # Direct call approach:
-        # ret_val = SapModel.AreaObj.AddByCoord(...) # ret_val might be [ret_code, Name]
-        # ret_code = ret_val[0]
-        # area_name_assigned = ret_val[1]
-
-        # Let's try the explicit clr.Reference approach for robustness with potential API variations:
-        name_ref = clr.Reference[str]("") # Reference for the output name
-
-        # Call AddByCoord - unpack the dictionary for clarity
-        # IMPORTANT: Check the specific API version's parameter order if issues arise.
-        # Assuming order based on common patterns: Num, X, Y, Z, Name (out), PropName, UserName, CSys
-        ret_code = SapModel.AreaObj.AddByCoord(
-            coord_data['NumberPoints'],
-            coord_data['X'], # Pass lists directly
-            coord_data['Y'],
-            coord_data['Z'],
-            name_ref, # Pass the reference for the output name
-            coord_data['PropName'],
-            coord_data['UserName'],
-            coord_data['CSys']
+        ret = SapModel.AreaObj.AddByCoord(
+            **AddByCoord_args
         )
 
         # Check return code
-        if ret_code != 0:
-            logger.error(f"Failed adding area object at {coords}; ETABS API returned code {ret_code}")
+        if ret[0] != 0:
+            logger.error(f"Failed adding ETABS area object at {AddByCoord_args}; ETABS API returned code {ret[0]}")
             return None
 
-        # Get the assigned name from the reference
-        area_name = name_ref.Value
-        if not area_name:
-             logger.error(f"Area object added (Code {ret_code}), but no name was returned by the API.")
-             # Still might be useful to return something? Or None is safer.
-             return None
-
-        logger.info(f"Successfully added area object: '{area_name}'")
-
-        # Assign to group if group_name is provided
-        if group_name:
-            created_group = create_etabs_group(group_name) # Ensures group exists
-            if created_group:
-                # API: SetGroupAssign(string Name, string GroupName, bool Remove = false, int ItemType = 0)
-                # ItemType=0 means assignment is based on object type (Area in this case)
-                ret_assign = SapModel.AreaObj.SetGroupAssign(area_name, group_name, False, 0)
-                if ret_assign == 0:
-                    logger.info(f"Assigned area '{area_name}' to group '{group_name}'")
-                else:
-                     logger.warning(f"Failed to assign area '{area_name}' to group '{group_name}'. API Code: {ret_assign}")
-            else:
-                # create_etabs_group logs the error
-                logger.warning(f"Could not create/find group '{group_name}'. Area '{area_name}' not assigned to group.")
+        # Get the name of the created area object
+        area_name = str(ret[4])
+        logger.info(f"Successfully added ETABS area object '{area_name}' at {AddByCoord_args}")
 
         return area_name # Return the name assigned by ETABS
-
     except (RuntimeError, ConnectionError, ValueError) as e:
         # Catch errors from CsiHelper or value errors (e.g., bad coords if validation added)
         logger.error(f"CSI interaction error during add_area: {e}")
@@ -612,6 +557,62 @@ def add_area(coords: List[float], group_name: str = 'Warnings') -> Optional[str]
         # Catch unexpected errors (e.g., COM errors from API calls)
         logger.exception(f"An unexpected error occurred during add_area:") # Includes traceback
         return None
+
+def add_etabs_warning_mark(
+        location: List[float],
+        size: float = 500.0,
+        group_name: Optional[str] = 'Warnings'
+    ) -> Optional[str]:
+    """
+    Adds warning marks in ETABS at the specified locations.
+
+    Connects to ETABS using CsiHelper if not already connected. Creates the
+    specified group if it doesn't exist and assigns the new area to it.
+
+    Args:
+        location (List[float]): [x, y, z] warning location coordinates.
+        size (float): Approx. base size of the triangle marker (in current model units).
+        group_name (str): Name of the group to create (if needed) and assign the area to.
+
+    Returns:
+        Optional[str]: The name of the created area object, or None on failure.
+    """
+    logger.info(f"Attempting to add ETABS warning marks at {location}")
+    try:
+        # Ensure connected to ETABS. Use unit=None to avoid changing current units.
+        SapModel = CsiHelper.connect_to_etabs(unit=None)
+        if not SapModel:
+            logger.warning("Failed to connect to ETABS. Cannot add warning marks.")
+            return None
+
+        # Prepare the area arguments
+        area_args = _get_warning_area_arguments(location, size)
+
+        # Add the area
+        area_name = add_etabs_area(area_args)
+        if not area_name:
+            logger.error("Failed to add ETABS area object. Cannot assign to group.")
+            return None
+
+        if group_name:
+            # Assign the area to the group
+            ret = SapModel.AreaObj.SetGroupAssign(area_name, group_name)
+            if ret!= 0:  # Check return code
+                logger.error(f"Failed to assign area '{area_name}' to group '{group_name}'; ETABS API returned code {ret}")
+                return None
+
+        logger.info(f"Successfully added ETABS warning mark at {location}")
+        return area_name # Return the name assigned by ETABS
+    except (RuntimeError, ConnectionError, ValueError) as e:    # Catch errors from CsiHelper or value errors (e.g., bad coords if validation added)
+        logger.error(f"CSI interaction error during add_etabs_warning_mark: {e}")
+        return None
+    except Exception as e:
+        # Catch unexpected errors (e.g., COM errors from API calls)     
+        logger.exception(f"An unexpected error occurred during add_etabs_warning_mark:") # Includes traceback  
+        return None
+
+
+
 
 
 def get_etabs_groups() -> Optional[List[str]]:
@@ -627,18 +628,19 @@ def get_etabs_groups() -> Optional[List[str]]:
     try:
         SapModel = CsiHelper.connect_to_etabs(unit=None)
 
-        # API: GetNameList(ref long NumberNames, ref string[] MyName)
-        num_names_ref = clr.Reference[int](0) # Use clr.Reference for output parameters
-        group_names_ref = clr.Reference[Tuple[str, ...]](()) # Expecting a tuple/array of strings
+        etabs_groups = {
+            'NumberNames': 0,
+            'MyName': []
+        }
 
-        ret_code = SapModel.GroupDef.GetNameList(num_names_ref, group_names_ref)
+        ret = SapModel.GroupDef.GetNameList(**etabs_groups)
 
-        if ret_code != 0:
-            logger.error(f'Failed reading group names; ETABS API returned code {ret_code}')
+        if ret[0] != 0:
+            logger.error(f'Failed reading group names; ETABS API returned code {ret[0]}')
             return None
 
-        # Convert the returned value (should be a tuple) to a list
-        actual_group_names = list(group_names_ref.Value)
+ 
+        actual_group_names = list(ret[2])
         logger.info(f"Successfully retrieved {len(actual_group_names)} ETABS groups.")
         logger.debug(f"Retrieved groups: {actual_group_names}")
         return actual_group_names
@@ -686,18 +688,27 @@ def create_etabs_group(group_name: str) -> Optional[str]:
         else:
             # Group does not exist, create it
             logger.info(f"Creating ETABS group: '{group_name}'")
-            # API: SetGroup_1(string Name, long Color = -1, bool SpecifiedForSelection = true, ...)
-            # Using a distinct color for warning groups might be helpful. Yellow = 10.
-            color = 10
-            specified_for_selection = True
-            # Other flags default to False based on typical usage
-            ret_code = SapModel.GroupDef.SetGroup_1(
-                group_name, color, specified_for_selection,
-                False, False, False, False, False, False, False, False, False, False, False, False
-            )
 
-            if ret_code != 0:
-                logger.error(f"Failed creating group '{group_name}'; ETABS API returned code {ret_code}")
+            SetGroup = {
+                'Name' : group_name,
+                'color' : -1,
+                'SpecifiedForSelection' : True,
+                'SpecifiedForSectionCutDefinition' : False,
+                'SpecifiedForSteelDesign' : False,
+                'SpecifiedForConcreteDesign' : False,
+                'SpecifiedForAluminumDesign' : False,
+                'SpecifiedForStaticNLActiveStage' : False,
+                'SpecifiedForAutoSeismicOutput' : False,
+                'SpecifiedForAutoWindOutput' : False,
+                'SpecifiedForMassAndWeight' : False,
+                'SpecifiedForSteelJoistDesign' : False,
+                'SpecifiedForWallDesign' : False,
+                'SpecifiedForBasePlateDesign' : False,
+                'SpecifiedForConnectionDesign' : False,
+            }
+            ret = SapModel.GroupDef.SetGroup_1(**SetGroup)
+            if ret != 0:
+                logger.error(f"Failed creating group '{group_name}'; ETABS API returned code {ret}")
                 return None
 
             logger.info(f"Group '{group_name}' created successfully.")
