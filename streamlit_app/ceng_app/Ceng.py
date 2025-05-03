@@ -32,6 +32,10 @@ col_trib_forces = st.Page(
     "pages/forces/01_Column_Trib_Forces.py"
 )
 
+dataviz_sample = st.Page(
+    "pages/pandas/dataviz.py"
+)
+
 #etabs_warnings = st.Page(
 #    "pages/csi/etabs_warnings.py"
 #)
@@ -44,6 +48,7 @@ if st.session_state.logged_in:
             "Account": [logout_page],
             "RC Column Tools": [col_dns_short, col_dns],
             "Forces Tools": [col_trib_forces],
+            "PANDAS Tools": [dataviz_sample],
             #"CSI Tools": [etabs_warnings],
         }
     )
