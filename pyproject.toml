@@ -13,7 +13,6 @@ dependencies = [
     "pandas",
     "xlwings",
     "streamlit",
-    "pytest",
     "shapely",
     "plotly",
     "more_itertools",
@@ -22,10 +21,12 @@ dependencies = [
     "openpyxl",
 ]
 
-[project.optional-dependencies]
-test = [
-    "pytest",
-]
 
 [project.urls]
 Home = "https://github.com/mohamadalitellawi/Civil_Engineering_Tools/"
+
+[dependency-groups]
+dev = [
+    "ipykernel>=6.29.5",
+    "pytest",
+]
