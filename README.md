@@ -10,3 +10,7 @@ Most of the tools will be built by Python Programing language and following the 
 
 ### Credits
 - big thanks for <a href="https://github.com/connorferster">Connor Ferster</a> for his good training, most of the work here is based on his good teaching.
+
+
+#### Date 10-May-2025
+use uv to manage the package

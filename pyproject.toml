@@ -1,14 +1,13 @@
-[build-system]
-requires = ["flit_core >=3.2,<4"]
-build-backend = "flit_core.buildapi"
 
 [project]
 name = "mat_ceng"
+version = "0.0.15"
+description = "Package For Some Civil Engineering Tools."
 authors = [{name = "Mohamad Ali", email = "mohamadalitellawi@gmail.com"}]
-readme = "README.md"
+readme = {file = "README.md", content-type = "text/markdown"}
+keywords = ["library", "civil", "structural", "python"]
 license = {file = "LICENSE"}
 classifiers = ["License :: OSI Approved :: Apache Software License"]
-dynamic = ["version", "description"]
 dependencies = [
     "numpy",
     "pandas",
@@ -21,7 +20,11 @@ dependencies = [
     "pythonnet",
     "matplotlib",
     "openpyxl",
+]
 
+[project.optional-dependencies]
+test = [
+    "pytest",
 ]
 
 [project.urls]
