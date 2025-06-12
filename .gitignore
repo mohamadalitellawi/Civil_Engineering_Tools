@@ -161,3 +161,6 @@ cython_debug/
 notebooks/modeling_from_revit/warnings.csv
 notebooks/modeling_from_revit/warnings.xlsx
 notebooks/modeling_from_revit/log.txt
+
+data/
+tests/mat_ceng/test_data
