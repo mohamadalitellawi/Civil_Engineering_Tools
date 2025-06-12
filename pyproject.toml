@@ -25,7 +25,7 @@ dependencies = [
 [project.urls]
 Home = "https://github.com/mohamadalitellawi/Civil_Engineering_Tools/"
 
-[dependency-groups]
+[project.optional-dependencies]
 dev = [
     "ipykernel>=6.29.5",
     "pytest",
