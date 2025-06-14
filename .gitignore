@@ -164,3 +164,4 @@ notebooks/modeling_from_revit/log.txt
 
 data/
 tests/mat_ceng/test_data
+notebooks/test_data
