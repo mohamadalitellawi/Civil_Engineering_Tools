@@ -19,6 +19,7 @@ dependencies = [
     "pythonnet",
     "matplotlib",
     "openpyxl",
+    "seaborn>=0.13.2",
 ]
 
 
