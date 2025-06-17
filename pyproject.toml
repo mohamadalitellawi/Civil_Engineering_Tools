@@ -20,6 +20,7 @@ dependencies = [
     "matplotlib",
     "openpyxl",
     "seaborn>=0.13.2",
+    "geopandas>=1.1.0",
 ]
 
 
@@ -30,4 +31,10 @@ Home = "https://github.com/mohamadalitellawi/Civil_Engineering_Tools/"
 dev = [
     "ipykernel>=6.29.5",
     "pytest",
+]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=6.29.5",
+    "pytest>=8.4.0",
 ]
