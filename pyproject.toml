@@ -4,6 +4,7 @@ name = "mat_ceng"
 version = "0.0.15"
 description = "Package For Some Civil Engineering Tools."
 authors = [{name = "Mohamad Ali", email = "mohamadalitellawi@gmail.com"}]
+requires-python = ">=3.13"
 readme = {file = "README.md", content-type = "text/markdown"}
 keywords = ["library", "civil", "structural", "python"]
 license = {file = "LICENSE"}
@@ -21,8 +22,15 @@ dependencies = [
     "openpyxl",
     "seaborn>=0.13.2",
     "geopandas>=1.1.0",
+    "sympy>=1.14.0",
+    "scipy>=1.16.0",
+    "numdifftools>=0.9.41",
+    "vpython>=7.6.5",
 ]
 
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [project.urls]
 Home = "https://github.com/mohamadalitellawi/Civil_Engineering_Tools/"
