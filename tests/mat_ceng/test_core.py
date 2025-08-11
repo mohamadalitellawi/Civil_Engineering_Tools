@@ -1,6 +1,5 @@
-import pytest
+
 from mat_ceng import say_hi
-from mat_ceng import Material,Section_Dimensions,Load_Case,calculate_column_actual_moment_of_inertia
 import pathlib
 
 

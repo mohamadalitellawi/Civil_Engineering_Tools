@@ -20,17 +20,7 @@ dashboard = st.Page(
     "pages/main/dashboard.py", title="Dashboard", icon=":material/dashboard:", default=True
 )
 
-col_dns_short = st.Page(
-    "pages/rc_columns/02_RC_Column_delta_ns_Short.py"
-)
 
-col_dns = st.Page(
-    "pages/rc_columns/03_RC_Column_delta_ns.py"
-)
-
-col_trib_forces = st.Page(
-    "pages/forces/01_Column_Trib_Forces.py"
-)
 
 dataviz_sample = st.Page(
     "pages/pandas/dataviz.py"
@@ -46,10 +36,7 @@ if st.session_state.logged_in:
         {
             "Main": [dashboard],
             "Account": [logout_page],
-            "RC Column Tools": [col_dns_short, col_dns],
-            "Forces Tools": [col_trib_forces],
             "PANDAS Tools": [dataviz_sample],
-            #"CSI Tools": [etabs_warnings],
         }
     )
 else:

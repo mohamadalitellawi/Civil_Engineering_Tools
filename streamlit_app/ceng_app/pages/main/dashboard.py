@@ -10,7 +10,7 @@ st.set_page_config(
 
 st.write("# Welcome to Civil Engineering Tools! 👋")
 st.write(('streamlit version: ', st.__version__))
-st.write(('tools version: ',mc.__version__))
+#st.write(('tools version: ',mc.__version__))
 
 
 tools_filename = Path(mc.__file__)
