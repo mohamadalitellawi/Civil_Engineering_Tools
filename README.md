@@ -14,3 +14,7 @@ Most of the tools will be built by Python Programing language and following the 
 
 #### Date 10-May-2025
 use uv to manage the package
+
+
+#### Date 11-Aug-2025
+remove uv from managing the package
