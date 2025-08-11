@@ -4,8 +4,9 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "mat_ceng"
+keywords = ["library", "civil", "structural", "python"]
 authors = [{name = "Mohamad Ali", email = "mohamadalitellawi@gmail.com"}]
-readme = "README.md"
+readme = {file = "README.md", content-type = "text/markdown"}
 license = {file = "LICENSE"}
 classifiers = ["License :: OSI Approved :: Apache Software License"]
 dynamic = ["version", "description"]
