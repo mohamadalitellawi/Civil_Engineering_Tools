@@ -24,4 +24,9 @@ use uv to manage the package
 uv init --lib
 uv add --dev ipykernel pytest IPython ipywidgets ipykernel jupyterlab jupyterlab-mathjax3 nbconvert
 uv add numpy pandas openpyxl shapely matplotlib plotly handcalcs more-itertools forallpeople rich xlwings pythonnet
+
+# major, minor, patch
+uv version --bump patch
+uv build
+uv publish
 ```

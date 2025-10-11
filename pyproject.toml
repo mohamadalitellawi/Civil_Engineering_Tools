@@ -1,6 +1,6 @@
 [project]
 name = "mat_ceng"
-version = "0.0.23"
+version = "0.0.24"
 description = "useful tools for civil engineering that are needed regularly in the daily tasks for a civil engineer"
 readme = "README.md"
 authors = [
