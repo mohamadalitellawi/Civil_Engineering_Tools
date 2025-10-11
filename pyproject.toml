@@ -1,25 +1,42 @@
-[build-system]
-requires = ["flit_core >=3.2,<4"]
-build-backend = "flit_core.buildapi"
-
 [project]
 name = "mat_ceng"
-keywords = ["library", "civil", "structural", "python"]
-authors = [{name = "Mohamad Ali", email = "mohamadalitellawi@gmail.com"}]
-readme = {file = "README.md", content-type = "text/markdown"}
+version = "0.0.23"
+description = "useful tools for civil engineering that are needed regularly in the daily tasks for a civil engineer"
+readme = "README.md"
+authors = [
+    { name = "Mohamad Ali", email = "mohamadalitellawi@gmail.com" }
+]
 license = {file = "LICENSE"}
 classifiers = ["License :: OSI Approved :: Apache Software License"]
-dynamic = ["version", "description"]
+requires-python = ">=3.14"
 dependencies = [
-    "numpy",
-    "pandas",
-    "xlwings",
-    "streamlit",
-    "plotly",
-    "more_itertools",
-    "pythonnet",
-    "matplotlib",
-    "openpyxl",
+    "forallpeople>=2.7.1",
+    "handcalcs>=1.9.0",
+    "matplotlib>=3.10.7",
+    "more-itertools>=10.8.0",
+    "numpy>=2.3.3",
+    "openpyxl>=3.1.5",
+    "pandas>=2.3.3",
+    "plotly>=6.3.1",
+    "pythonnet>=3.0.5",
+    "rich>=14.2.0",
+    "shapely>=2.1.2",
+    "xlwings>=0.33.16",
+]
+
+[build-system]
+requires = ["uv_build>=0.9.2,<0.10.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "ipykernel>=6.30.1",
+    "ipython>=9.6.0",
+    "ipywidgets>=8.1.7",
+    "jupyterlab>=4.4.9",
+    "jupyterlab-mathjax3>=4.3.0",
+    "nbconvert>=7.16.6",
+    "pytest>=8.4.2",
 ]
 
 [project.urls]

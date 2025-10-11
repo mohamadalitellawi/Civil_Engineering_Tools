@@ -17,3 +17,11 @@ use uv to manage the package
 
 #### Date 11-Aug-2025
 remove uv from managing the package
+
+#### Date 11-Dec-2025
+use uv to manage the package
+```shell
+uv init --lib
+uv add --dev ipykernel pytest IPython ipywidgets ipykernel jupyterlab jupyterlab-mathjax3 nbconvert
+uv add numpy pandas openpyxl shapely matplotlib plotly handcalcs more-itertools forallpeople rich xlwings pythonnet
+```
