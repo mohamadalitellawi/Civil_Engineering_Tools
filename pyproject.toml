@@ -8,10 +8,11 @@ authors = [
 ]
 license = {file = "LICENSE"}
 classifiers = ["License :: OSI Approved :: Apache Software License"]
-requires-python = ">=3.14"
+requires-python = ">=3.13"
 dependencies = [
     "forallpeople>=2.7.1",
     "handcalcs>=1.9.0",
+    "loguru>=0.7.3",
     "matplotlib>=3.10.7",
     "more-itertools>=10.8.0",
     "numpy>=2.3.3",
@@ -19,6 +20,7 @@ dependencies = [
     "pandas>=2.3.3",
     "plotly>=6.3.1",
     "pythonnet>=3.0.5",
+    "pyyaml>=6.0.3",
     "rich>=14.2.0",
     "shapely>=2.1.2",
     "xlwings>=0.33.16",

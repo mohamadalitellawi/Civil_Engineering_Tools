@@ -1,0 +1,6 @@
+# my_custom_config.yaml
+connection:
+  attach_to_existing: false
+software_paths:
+  etabs: "C:\\Program Files\\Computers and Structures\\ETABS 22\\ETABS.exe"
+  etabs_dll: "C:\\Program Files\\Computers and Structures\\ETABS 22\\ETABSv1.dll"

@@ -1,0 +1,15 @@
+# config.yaml
+logging:
+  level: "INFO"
+  log_to_file: true
+  log_dir: "logs"
+
+software_paths:
+  etabs: "C:\\Program Files\\Computers and Structures\\ETABS 22\\ETABS.exe"
+  etabs_dll: "C:\\Program Files\\Computers and Structures\\ETABS 22\\ETABSv1.dll"
+  sap2000: "C:\\Program Files\\Computers and Structures\\SAP2000 26\\SAP2000.exe"
+  safe: "C:\\Program Files\\Computers and Structures\\SAFE 22\\SAFE.exe"
+
+connection:
+  attach_to_existing: true
+  launch_timeout_sec: 10
