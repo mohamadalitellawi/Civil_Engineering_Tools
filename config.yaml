@@ -8,7 +8,9 @@ software_paths:
   etabs: "C:\\Program Files\\Computers and Structures\\ETABS 22\\ETABS.exe"
   etabs_dll: "C:\\Program Files\\Computers and Structures\\ETABS 22\\ETABSv1.dll"
   sap2000: "C:\\Program Files\\Computers and Structures\\SAP2000 26\\SAP2000.exe"
+  sap2000_dll: "C:\\Program Files\\Computers and Structures\\SAP2000 26\\SAP2000v1.dll"
   safe: "C:\\Program Files\\Computers and Structures\\SAFE 22\\SAFE.exe"
+  safe_dll: "C:\\Program Files\\Computers and Structures\\SAFE 22\\SAFEv1.dll"
 
 connection:
   attach_to_existing: true
