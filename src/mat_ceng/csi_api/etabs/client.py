@@ -5,7 +5,8 @@ from ..core.connection import connect_to_csi_api
 from ..exceptions import ConnectionError, ModelError
 from ..config import load_config
 from ..core.utils import setup_logger
-from ..core.units import detect_units_from_etabs
+from ..core.units import detect_units_from_etabs, get_force_units_enum, get_length_units_enum, get_temperature_units_enum
+from enum import Enum
 
 class ETABSClient:
     def __init__(self, config_path=None):
@@ -25,6 +26,16 @@ class ETABSClient:
         self._etabs_dll_lib = None
         self._is_connected = False
 
+        self._units_enum = {
+            'force_units_enum' : None,
+            'length_units_enum' : None,
+            'temperature_units_enum' : None
+        }
+        self.units_force = None
+        self.units_length = None
+        self.units_temperature = None
+
+
     def connect(self):
         try:
             self._etabs_object, self._sap_model, self._etabs_dll_lib = connect_to_csi_api(
@@ -37,10 +48,17 @@ class ETABSClient:
             
             self._is_connected = True
 
-            self._units = detect_units_from_etabs(self._sap_model, self._etabs_object, self._etabs_dll_lib)
+            self._units_enum['force_units_enum'] = get_force_units_enum(self._etabs_dll_lib)
+            self._units_enum['length_units_enum'] = get_length_units_enum(self._etabs_dll_lib)
+            self._units_enum['temperature_units_enum'] = get_temperature_units_enum(self._etabs_dll_lib)
+
+            units = detect_units_from_etabs(self._sap_model, self._etabs_dll_lib)
+            self.units_force = self._units_enum['force_units_enum'][units['force']]
+            self.units_length = self._units_enum['length_units_enum'][units['length']]
+            self.units_temperature = self._units_enum['temperature_units_enum'][units['temperature']]
 
             self.logger.info("ETABS connection established.")
-            self.logger.info(f"Model units detected: force={self._units['force']}, length={self._units['length']}, temperature={self._units['temperature']}")
+            self.logger.info(f"Model units detected: force={self.units_force.value}, length={self.units_length.value}, temperature={self.units_temperature.value}")
             
         except Exception as e:
             raise ConnectionError(f"ETABS connection failed: {e}") from e
@@ -73,6 +91,30 @@ class ETABSClient:
             return list(ret[2])
         except Exception as e:
             raise ModelError(f"Failed to get story names: {e}") from e
+
+    def set_units(self,
+                  force:str = 'kN',
+                  length:str = 'm',
+                  temperature:str = 'C'):
+        if not self._is_connected:
+            raise ModelError("Not connected to ETABS")
+        try:
+            ret = self._sap_model.SetPresentUnits_2(
+                self._units_enum['force_units_enum'][force].value,
+                self._units_enum['length_units_enum'][length].value,
+                self._units_enum['temperature_units_enum'][temperature].value
+            )
+            if ret != 0:
+                raise ModelError("Setting Model Units Failed")
+            units = detect_units_from_etabs(self._sap_model, self._etabs_dll_lib)
+            self.units_force = self._units_enum['force_units_enum'][units['force']]
+            self.units_length = self._units_enum['length_units_enum'][units['length']]
+            self.units_temperature = self._units_enum['temperature_units_enum'][units['temperature']]
+            self.logger.info(f"Model units detected: force={self.units_force.value}, length={self.units_length.value}, temperature={self.units_temperature.value}")
+
+        except Exception as e:
+            raise ModelError(f"Failed to set Units: {e}") from e
+
 
     def add_load_pattern(self, name, load_type=1):
         try:

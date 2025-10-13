@@ -28,7 +28,7 @@ def connect_to_csi_api(prog_id, dll_path = None, exe_path=None, attach_to_existi
 
     if attach_to_existing:
         try:
-            myETABSObject = etabs.cOAPI(helper.GetObject("CSI.ETABS.API.ETABSObject"))
+            myETABSObject = etabs.cOAPI(helper.GetObject(prog_id))
             SapModel = etabs.cSapModel(myETABSObject.SapModel)
             if myETABSObject:
                 return myETABSObject, SapModel, etabs
