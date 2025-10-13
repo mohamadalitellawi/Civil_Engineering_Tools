@@ -40,7 +40,7 @@ class ETABSClient:
             self._units = detect_units_from_etabs(self._sap_model, self._etabs_object, self._etabs_dll_lib)
 
             self.logger.info("ETABS connection established.")
-            self.logger.info(f"Model units detected: force={self._units['force']}, length={self._units['length']}, moment={self._units['moment']}")
+            self.logger.info(f"Model units detected: force={self._units['force']}, length={self._units['length']}, temperature={self._units['temperature']}")
             
         except Exception as e:
             raise ConnectionError(f"ETABS connection failed: {e}") from e
