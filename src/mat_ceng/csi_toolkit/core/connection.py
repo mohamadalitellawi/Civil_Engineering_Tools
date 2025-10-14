@@ -108,7 +108,7 @@ class ConnectionManager:
             # Import the appropriate module
             if self.software == CSISoftware.ETABS:
                 import ETABSv1
-                helper = ETABSv1.Helper()
+                helper = ETABSv1.cHelper(ETABSv1.Helper())
             elif self.software == CSISoftware.SAP2000:
                 import SAP2000v1
                 helper = SAP2000v1.Helper()
@@ -117,14 +117,13 @@ class ConnectionManager:
                 helper = SAFEv1.Helper()
             
             # Attach to existing instance
-            try:
-                self.sap_object = helper.GetObject("CSI.ETABS.API.ETABSObject")
-            except:
-                # Try without specific object type
-                self.sap_object = helper.GetObject("")
-            
-            # Get the model
-            self.sap_model = self.sap_object.SapModel
+            if self.software == CSISoftware.ETABS:
+                self.sap_object = ETABSv1.cOAPI(helper.GetObject("CSI.ETABS.API.ETABSObject"))
+                self.sap_model = ETABSv1.cSapModel(self.sap_object.SapModel)
+            elif self.software == CSISoftware.SAP2000:
+                pass
+            else:
+                pass
             
             logger.info(f"Successfully attached to {self.software.value}")
             return self.sap_object, self.sap_model
@@ -159,22 +158,29 @@ class ConnectionManager:
             # Import the appropriate module
             if self.software == CSISoftware.ETABS:
                 import ETABSv1
-                helper = ETABSv1.Helper()
-                self.sap_object = helper.CreateObjectProgID("CSI.ETABS.API.ETABSObject")
+                helper = ETABSv1.cHelper(ETABSv1.Helper())
+                self.sap_object = ETABSv1.cOAPI(helper.CreateObjectProgID("CSI.ETABS.API.ETABSObject"))
             elif self.software == CSISoftware.SAP2000:
-                import SAP2000v1
-                helper = SAP2000v1.Helper()
-                self.sap_object = helper.CreateObjectProgID("CSI.SAP2000.API.SapObject")
+                # import SAP2000v1
+                # helper = SAP2000v1.Helper()
+                # self.sap_object = helper.CreateObjectProgID("CSI.SAP2000.API.SapObject")
+                pass
             else:  # SAFE
-                import SAFEv1
-                helper = SAFEv1.Helper()
-                self.sap_object = helper.CreateObjectProgID("CSI.SAFE.API.SAFEObject")
+                # import SAFEv1
+                # helper = SAFEv1.Helper()
+                # self.sap_object = helper.CreateObjectProgID("CSI.SAFE.API.SAFEObject")
+                pass
             
             # Start application
             self.sap_object.ApplicationStart()
             
             # Get the model
-            self.sap_model = self.sap_object.SapModel
+            if self.software == CSISoftware.ETABS:
+                self.sap_model = ETABSv1.cSapModel(self.sap_object.SapModel) # Get the model
+            elif self.software == CSISoftware.SAP2000:
+                pass
+            else:
+                pass
             
             # Initialize model
             if model_path:
